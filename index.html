@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Letter For You 💌</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    font-family: 'Comic Sans MS', cursive;
+}
+
+body {
+    margin: 0;
+    height: 100vh;
+    background: linear-gradient(135deg, #ffd6e8, #fff1f7);
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Floating hearts */
+.heart {
+    position: absolute;
+    font-size: 18px;
+    animation: fall linear infinite;
+    opacity: 0.8;
+}
+
+@keyframes fall {
+    0% { transform: translateY(-10vh); opacity: 1; }
+    100% { transform: translateY(110vh); opacity: 0; }
+}
+
+.center {
+    text-align: center;
+    z-index: 2;
+}
+
+h1 {
+    color: #e6005c;
+    margin-top: 12px;
+}
+
+/* Animated letter */
+.letter-box {
+    height: 220px;
+    border: 4px solid #ff5c8a;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 183px;
+    cursor: pointer;
+    animation: float 2s infinite ease-in-out, glow 1.5s infinite alternate;
+    box-shadow: 0 10px 25px rgba(255, 92, 138, 0.4);
+}
+
+@keyframes float {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-12px); }
+    100% { transform: translateY(0); }
+}
+
+@keyframes glow {
+    from { box-shadow: 0 0 10px #ff5c8a; }
+    to { box-shadow: 0 0 25px #ff99bb; }
+}
+
+/* Valentine card */ 
+.card {
+    display: none;
+    background: #ffd6e8;
+    border: 6px solid #ff5c8a;
+    border-radius: 12px;
+    padding: 49px;
+    width: min(90vw, 412px);
+    position: relative;
+}
+
+.buttons {
+    margin-top: 25px;
+    position: relative;
+    height: 120px;
+}
+
+button {
+    padding: 12px 22px;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+#yes {
+    background: #ff4d88;
+    color: white;
+}
+
+#no {
+    background: white;
+    color: #ff4d88;
+    position: absolute;
+    transition: all 0.25s ease-out;
+}
+
+/* Success */
+.success {
+    display: none;
+    text-align: center;
+    animation: pop 0.6s ease-out;
+}
+
+@keyframes pop {
+    from { transform: scale(0); }
+    to { transform: scale(1); }
+}
+
+.big-heart {
+    font-size: 60px;
+    animation: heartbeat 1s infinite;
+}
+
+@keyframes heartbeat {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.3); }
+    100% { transform: scale(1); }
+}
+
+/* Pixel cat */
+.pixel-cat {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    margin: 20px auto;
+    animation: catBounce 1.5s infinite ease-in-out;
+}
+
+@keyframes catBounce {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+    100% { transform: translateY(0); }
+}
+
+.pixel-cat .ear {
+    width: 30px;
+    height: 30px;
+    background: #af6e6e;
+    position: absolute;
+    top: 0;
+    clip-path: polygon(0 100%, 50% 0, 100% 100%);
+}
+
+.pixel-cat .ear.left { left: 15px; }
+.pixel-cat .ear.right { right: 15px; }
+
+.pixel-cat .face {
+    width: 100px;
+    height: 90px;
+    background: #af6e6e;
+    position: absolute;
+    bottom: 0;
+    left: 10px;
+    border-radius: 8px;
+}
+
+.pixel-cat .eye {
+    width: 14px;
+    height: 14px;
+    background: white;
+    position: absolute;
+    top: 25px;
+}
+
+.pixel-cat .eye.left { left: 25px; }
+.pixel-cat .eye.right { right: 25px; }
+
+.pixel-cat .mouth {
+    width: 12px;
+    height: 6px;
+    background: pink;
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 0 0 6px 6px;
+}
+
+/* Open letter button */
+.open-letter-btn {
+    background: #ff4d88;
+    color: white;
+    padding: 14px 26px;
+    border-radius: 30px;
+    font-weight: bold;
+    margin-top: 15px;
+    animation: pulse 1.4s infinite;
+}
+
+@keyframes pulse {
+    50% { transform: scale(1.08); }
+}
+
+/* Letter popup */
+.final-letter {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(255, 182, 213, 0.95);
+    z-index: 10;
+    justify-content: center;
+    align-items: center;
+}
+
+.final-card {
+    background: #fff;
+    border: 6px solid #ff5c8a;
+    border-radius: 14px;
+    padding: 25px;
+    width: min(90vw, 625px);
+    text-align: center;
+    max-height: 567px;
+}
+
+.close-letter {
+    background: #ff5c8a;
+    color: white;
+    padding: 10px 22px;
+    border-radius: 20px;
+}
+#typedText::after {
+    content: "|";
+    animation: blink 1s infinite;
+}
+
+@keyframes blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- Landing -->
+<div class="center" id="landing">
+    <div class="letter-box" id="openLetter">💌</div>
+    <h1>♡ Letter For You ♡</h1>
+</div>
+
+<!-- Valentine Card -->
+<div class="card center" id="card">
+    <h2>Will you be my Valentine? 💖</h2>
+    <div class="buttons">
+        <button id="yes">YES</button>
+        <button id="no">NO</button>
+    </div>
+</div>
+
+<!-- Success -->
+<div class="success center" id="success">
+    <div class="big-heart">💖</div>
+
+    <div class="pixel-cat">
+        <div class="ear left"></div>
+        <div class="ear right"></div>
+        <div class="face">
+            <div class="eye left"></div>
+            <div class="eye right"></div>
+            <div class="mouth"></div>
+        </div>
+    </div>
+
+    <h1>YIPPPPEEEEEE!!!</h1>
+
+    <button class="open-letter-btn" id="openFinalLetter" style="display:none;">
+        💌 Open Letter
+    </button>
+</div>
+
+<!-- Letter Popup -->
+<div class="final-letter" id="finalLetter">
+    <div class="final-card">
+        <h2>💖 A Letter For You 💖</h2>
+        <p id="typedText" data-text="
+        Hi Anushka 💕<br><br>
+
+        I just wanted to say…<br>
+        Knowing you since 2016 and actually loving you in 2026 — it’s been a long journey,
+        but everything aligned exactly as you said:
+        “When it mattered most.” 💖<br><br>
+
+        You make my ordinary days feel special 🌸<br><br>
+
+        Your smile has a way of making everything better,
+        and every moment with you feels like a little gift 🎁<br><br>
+
+        So this letter is just a small reminder…<br>
+        you are loved, appreciated, and incredibly special to me 💗<br><br>
+
+        And I know this for sure —<br>
+        you are going to be an amazing doctor very soon 🩺✨
+        "></p>
+
+
+        <button class="close-letter" id="closeFinalLetter">Close</button>
+    </div>
+</div>
+
+<!-- Sound -->
+<audio id="yesSound">
+    <source src="https://assets.mixkit.co/sfx/preview/mixkit-game-level-completed-2059.mp3">
+</audio>
+
+<script>
+const landing = document.getElementById("landing");
+const card = document.getElementById("card");
+const success = document.getElementById("success");
+const openLetter = document.getElementById("openLetter");
+const noBtn = document.getElementById("no");
+const yesBtn = document.getElementById("yes");
+const yesSound = document.getElementById("yesSound");
+const openFinalLetter = document.getElementById("openFinalLetter");
+const finalLetter = document.getElementById("finalLetter");
+const closeFinalLetter = document.getElementById("closeFinalLetter");
+let typingStarted = false;
+
+function typeLetter() {
+    if (typingStarted) return;
+    typingStarted = true;
+
+    const el = document.getElementById("typedText");
+    const text = el.dataset.text.trim();
+    let index = 0;
+
+    function type() {
+        if (index >= text.length) return;
+
+        // If HTML tag detected, insert whole tag at once
+        if (text[index] === "<") {
+            const endTag = text.indexOf(">", index);
+            el.innerHTML += text.substring(index, endTag + 1);
+            index = endTag + 1;
+            setTimeout(type, 0); // no delay for tags
+        } else {
+            el.innerHTML += text[index];
+            index++;
+            setTimeout(type, 35); // typing speed
+        }
+    }
+
+    type();
+}
+
+let noAttempts = 0;
+let orbitAngle = 0;
+
+openLetter.onclick = () => {
+    landing.style.display = "none";
+    card.style.display = "block";
+    noBtn.style.left = "200px";
+    noBtn.style.top = "60px";
+};
+
+function orbitNo() {
+    const yesRect = yesBtn.getBoundingClientRect();
+    const cardRect = card.getBoundingClientRect();
+    const radius = 70;
+
+    orbitAngle += Math.PI / 2;
+
+    noBtn.style.left =
+        (yesRect.left - cardRect.left) + radius * Math.cos(orbitAngle) + "px";
+    noBtn.style.top =
+        (yesRect.top - cardRect.top) + radius * Math.sin(orbitAngle) + "px";
+
+    noBtn.innerText = "Nice try!";
+}
+
+function flyAway() {
+    noBtn.style.left = Math.random() > 0.5 ? "-150px" : "120%";
+    noBtn.style.top = Math.random() * window.innerHeight + "px";
+    noBtn.innerText = "Nice try!";
+}
+
+function handleNo() {
+    noAttempts++;
+    if (noAttempts < 4) {
+        orbitNo();
+    } else {
+        flyAway();
+    }
+}
+
+noBtn.addEventListener("mouseenter", handleNo);
+noBtn.addEventListener("touchstart", (e) => {
+    e.preventDefault();
+    handleNo();
+});
+
+yesBtn.onclick = (e) => {
+    const rect = yesBtn.getBoundingClientRect();
+    heartBurst(rect.left + rect.width/2, rect.top + rect.height/2);
+
+    yesSound.play();
+    card.style.display = "none";
+    success.style.display = "block";
+    openFinalLetter.style.display = "inline-block";
+};
+
+openFinalLetter.onclick = () => {
+    finalLetter.style.display = "flex";
+    typeLetter();
+};
+
+closeFinalLetter.onclick = () => {
+    finalLetter.style.display = "none";
+};
+/* Floating hearts */
+setInterval(() => {
+    const elem = document.createElement("div");
+    elem.className = "heart";
+    elem.innerHTML = Math.random() > 0.5 ? "❤️" : "❄️";
+
+    elem.style.left = Math.random() * 100 + "vw";
+    elem.style.fontSize = Math.random() * 12 + 14 + "px";
+    elem.style.animationDuration = Math.random() * 3 + 3 + "s";
+
+    document.body.appendChild(elem);
+
+    setTimeout(() => elem.remove(), 7000);
+}, 250);
+function heartBurst(x, y) {
+    for (let i = 0; i < 18; i++) {
+        const heart = document.createElement("div");
+        heart.innerHTML = "💖";
+        heart.style.position = "fixed";
+        heart.style.left = x + "px";
+        heart.style.top = y + "px";
+        heart.style.fontSize = "18px";
+        heart.style.pointerEvents = "none";
+
+        const angle = Math.random() * 2 * Math.PI;
+        const distance = Math.random() * 120 + 40;
+
+        heart.animate([
+            { transform: "translate(0,0)", opacity: 1 },
+            {
+                transform: `translate(${Math.cos(angle)*distance}px, ${Math.sin(angle)*distance}px)`,
+                opacity: 0
+            }
+        ], {
+            duration: 900,
+            easing: "ease-out"
+        });
+
+        document.body.appendChild(heart);
+        setTimeout(() => heart.remove(), 900);
+    }
+}
+
+</script>
+
+</body>
+</html>
